@@ -31,11 +31,11 @@ class _MainWrapperState extends State<MainWrapper> {
       ),
       body: PageView(
         controller: _myPage,
-        children: const [
+        children: [
           HomePage(),
-          MarketViewPage(),
-          ProfilePage(),
-          WatchListPage(),
+          const MarketViewPage(),
+          const ProfilePage(),
+          const WatchListPage(),
         ],
       ),
     );
