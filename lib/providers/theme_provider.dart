@@ -5,8 +5,8 @@ class ThemeProvider extends ChangeNotifier {
   ThemeMode themeMode = ThemeMode.light;
 
   bool get isDarkMode => themeMode == ThemeMode.dark;
-  void toggleTheme(bool isOn) {
-    themeMode = isOn ? ThemeMode.dark : ThemeMode.light;
+  void toggleTheme() {
+    themeMode = themeMode == ThemeMode.light ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
   }
 }
@@ -25,6 +25,7 @@ class MyThemes {
     scaffoldBackgroundColor: Colors.grey.shade900,
     primaryColor: Colors.blueAccent[700],
     secondaryHeaderColor: Colors.white,
+
     iconTheme: const IconThemeData(color: Colors.black, opacity: 0.8),
     // textSelectionTheme: const TextSelectionThemeData(
     //   cursorColor: Colors.red,

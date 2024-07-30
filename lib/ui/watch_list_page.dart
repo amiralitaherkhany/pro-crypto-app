@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class WatchListPage extends StatelessWidget {
+  const WatchListPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
-        child: Text('HomePage'),
+        child: Text('watch list'),
       ),
     );
   }
