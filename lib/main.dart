@@ -1,3 +1,4 @@
+import 'package:crypto_app/providers/crypto_data_provider.dart';
 import 'package:crypto_app/providers/theme_provider.dart';
 import 'package:crypto_app/ui/main_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -12,6 +13,9 @@ void main() {
       providers: [
         ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => CryptoDataProvider(),
         )
       ],
       child: const MyMaterialApp(),

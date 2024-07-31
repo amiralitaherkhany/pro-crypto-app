@@ -16,6 +16,11 @@ class _HomePageViewState extends State<HomePageView> {
     'images/a4.png',
   ];
   @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PageView(
       allowImplicitScrolling: true,
