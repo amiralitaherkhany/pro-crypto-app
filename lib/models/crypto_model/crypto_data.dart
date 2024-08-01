@@ -244,7 +244,9 @@ class Quotes {
     _fullyDilluttedMarketCap = json['fullyDilluttedMarketCap'].toDouble();
     _marketCapByTotalSupply = json['marketCapByTotalSupply'].toDouble();
     _dominance = json['dominance'].toDouble();
-    _turnover = json['turnover'].toDouble();
+    if (json['turnover'] != null) {
+      _turnover = json['turnover'].toDouble();
+    }
     _ytdPriceChangePercentage = json['ytdPriceChangePercentage'].toDouble();
   }
   String? _name;

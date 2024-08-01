@@ -1,11 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:crypto_app/helpers/decimal_rounder.dart';
 import 'package:crypto_app/models/crypto_model/crypto_data.dart';
 import 'package:crypto_app/network/response_model.dart';
 import 'package:crypto_app/providers/crypto_data_provider.dart';
 import 'package:crypto_app/ui/ui_helper/home_page_view.dart';
 import 'package:crypto_app/ui/ui_helper/theme_switcher.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:marquee/marquee.dart';
 import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
@@ -21,21 +23,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final PageController _pageViewController = PageController(initialPage: 0);
 
-  var defaultChoiceIndex = 0;
-
   final List<String> _choicesList = [
     'Top MarketCaps',
     'Top Gainers',
     'Top Losers'
   ];
-  @override
-  void initState() {
-    super.initState();
+  // @override
+  // void initState() {
+  //   super.initState();
 
-    final cryptoProvider =
-        Provider.of<CryptoDataProvider>(context, listen: false);
-    cryptoProvider.getTopMarketCapData();
-  }
+  //   final cryptoProvider =
+  //       Provider.of<CryptoDataProvider>(context, listen: false);
+  //   cryptoProvider.getTopMarketCapData();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +52,7 @@ class _HomePageState extends State<HomePage> {
         title: const Text('ExchangeBs'),
         titleTextStyle: textTheme.titleLarge,
         centerTitle: true,
+        iconTheme: Theme.of(context).iconTheme,
       ),
       body: SizedBox.expand(
         child: SingleChildScrollView(
@@ -64,19 +65,22 @@ class _HomePageState extends State<HomePage> {
                 height: 10,
               ),
               _getButtons(),
-              _getChoiceChips(textTheme, primaryColor),
+              _getChoiceChips(
+                textTheme,
+                primaryColor,
+              ),
               SizedBox(
                 height: 500,
                 child: Consumer<CryptoDataProvider>(
                   builder: (context, cryptoDataProvider, child) {
                     switch (cryptoDataProvider.state.status) {
                       case Status.loading:
-                        return _getTopCoinShimmer();
+                        return _getCoinShimmer();
 
                       case Status.completed:
                         List<CryptoData>? model = cryptoDataProvider
                             .dataFuture.data!.cryptoCurrencyList;
-                        return _getTopCoinList(model, height, textTheme);
+                        return _getCoinList(model, height, textTheme);
 
                       case Status.error:
                         return Text(cryptoDataProvider.state.message);
@@ -94,7 +98,61 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Shimmer _getTopCoinShimmer() {
+  Padding _getChoiceChips(
+    TextTheme textTheme,
+    Color primaryColor,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 5.0, right: 5),
+      child: Row(
+        children: [
+          Consumer<CryptoDataProvider>(
+            builder: (context, cryptoDataProvider, child) {
+              return Wrap(
+                spacing: 8,
+                children: List.generate(
+                  _choicesList.length,
+                  (index) {
+                    return ChoiceChip(
+                      label: Text(
+                        _choicesList[index],
+                      ),
+                      selected: cryptoDataProvider.defaultChoiceIndex == index,
+                      labelStyle: textTheme.titleSmall,
+                      showCheckmark: false,
+                      side: const BorderSide(color: Colors.transparent),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      backgroundColor: Colors.grey[300],
+                      selectedColor: primaryColor,
+                      onSelected: (bool selected) {
+                        switch (index) {
+                          case 0:
+                            cryptoDataProvider.getTopMarketCapData();
+                            break;
+                          case 1:
+                            cryptoDataProvider.getTopGainersData();
+
+                            break;
+                          case 2:
+                            cryptoDataProvider.getTopLosersData();
+
+                            break;
+                        }
+                      },
+                    );
+                  },
+                ),
+              );
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Shimmer _getCoinShimmer() {
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade400,
       highlightColor: Colors.white,
@@ -208,12 +266,25 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  ListView _getTopCoinList(
+  ListView _getCoinList(
       List<CryptoData>? model, double height, TextTheme textTheme) {
     return ListView.separated(
       itemBuilder: (context, index) {
         var number = index + 1;
         var tokenId = model![index].id;
+        MaterialColor filterColor = DecimalRounder.setColorFilter(
+            model[index].quotes![0].percentChange24h);
+        var finalPrice =
+            DecimalRounder.removePriceDecimals(model[index].quotes![0].price);
+        // percent change setup decimals and colors
+        var percentChange = DecimalRounder.removePercentDecimals(
+            model[index].quotes![0].percentChange24h);
+
+        Color percentColor = DecimalRounder.setPercentChangesColor(
+            model[index].quotes![0].percentChange24h);
+        Icon percentIcon = DecimalRounder.setPercentChangesIcon(
+            model[index].quotes![0].percentChange24h);
+
         return SizedBox(
           height: height * 0.075,
           child: Row(
@@ -250,11 +321,44 @@ class _HomePageState extends State<HomePage> {
                     ),
                     Text(
                       model[index].symbol!,
-                      style: textTheme.titleSmall,
+                      style: textTheme.labelSmall,
                     ),
                   ],
                 ),
-              )
+              ),
+              Flexible(
+                fit: FlexFit.tight,
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.mode(filterColor, BlendMode.srcATop),
+                  child: SvgPicture.network(
+                      'https://s3.coinmarketcap.com/generated/sparklines/web/1d/2781/$tokenId.svg'),
+                ),
+              ),
+              Expanded(
+                  child: Padding(
+                padding: const EdgeInsets.only(right: 10),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Text(
+                      '\$$finalPrice',
+                      style: textTheme.bodySmall,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        percentIcon,
+                        Text(
+                          '$percentChange%',
+                          style: GoogleFonts.ubuntu(
+                              color: percentColor, fontSize: 13),
+                        ),
+                      ],
+                    )
+                  ],
+                ),
+              ))
             ],
           ),
         );
@@ -263,45 +367,6 @@ class _HomePageState extends State<HomePage> {
         return const Divider();
       },
       itemCount: 10,
-    );
-  }
-
-  Padding _getChoiceChips(TextTheme textTheme, Color primaryColor) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 5.0, right: 5),
-      child: Row(
-        children: [
-          Wrap(
-            spacing: 8,
-            children: List.generate(
-              _choicesList.length,
-              (index) {
-                return ChoiceChip(
-                  label: Text(
-                    _choicesList[index],
-                  ),
-                  selected: defaultChoiceIndex == index,
-                  labelStyle: textTheme.titleSmall,
-                  showCheckmark: false,
-                  side: const BorderSide(color: Colors.transparent),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  backgroundColor: Colors.grey[300],
-                  selectedColor: primaryColor,
-                  onSelected: (value) {
-                    if (value) {
-                      setState(() {
-                        defaultChoiceIndex = index;
-                      });
-                    }
-                  },
-                );
-              },
-            ),
-          )
-        ],
-      ),
     );
   }
 

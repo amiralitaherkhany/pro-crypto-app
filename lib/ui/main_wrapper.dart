@@ -1,9 +1,11 @@
+import 'package:crypto_app/providers/crypto_data_provider.dart';
 import 'package:crypto_app/ui/home_page.dart';
 import 'package:crypto_app/ui/market_view_page.dart';
 import 'package:crypto_app/ui/profile_page.dart';
 import 'package:crypto_app/ui/ui_helper/bottom_nav.dart';
 import 'package:crypto_app/ui/watch_list_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MainWrapper extends StatefulWidget {
   const MainWrapper({super.key});
@@ -16,23 +18,27 @@ class _MainWrapperState extends State<MainWrapper> {
   final PageController _myPage = PageController(initialPage: 0);
   @override
   Widget build(BuildContext context) {
+    var primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
       bottomNavigationBar: BottomNav(
         controller: _myPage,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue,
+        backgroundColor: primaryColor,
         shape: const CircleBorder(),
         onPressed: () {},
-        child: const Icon(
+        child: Icon(
           Icons.compare_arrows_outlined,
+          color: Theme.of(context).iconTheme.color,
         ),
       ),
       body: PageView(
         controller: _myPage,
         children: [
-          HomePage(),
+          ChangeNotifierProvider(
+              create: (context) => CryptoDataProvider(),
+              child: const HomePage()),
           const MarketViewPage(),
           const ProfilePage(),
           const WatchListPage(),
