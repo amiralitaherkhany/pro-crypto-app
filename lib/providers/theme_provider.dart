@@ -13,6 +13,11 @@ class ThemeProvider extends ChangeNotifier {
 
 class MyThemes {
   static final darkTheme = ThemeData(
+    textSelectionTheme: TextSelectionThemeData(
+      selectionHandleColor: Colors.blueAccent[700],
+      selectionColor: Colors.blueAccent,
+      cursorColor: Colors.blueAccent[700],
+    ),
     textTheme: TextTheme(
       titleLarge: GoogleFonts.ubuntu(
           color: Colors.black, fontSize: 22, fontWeight: FontWeight.bold),
@@ -38,6 +43,11 @@ class MyThemes {
   );
 
   static final lightTheme = ThemeData(
+    textSelectionTheme: const TextSelectionThemeData(
+      selectionHandleColor: Colors.blueAccent,
+      selectionColor: Colors.blueAccent,
+      cursorColor: Colors.blueAccent,
+    ),
     textTheme: TextTheme(
       titleLarge: GoogleFonts.ubuntu(
           color: Colors.white, fontSize: 22, fontWeight: FontWeight.bold),

@@ -40,9 +40,12 @@ class MarketViewPage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                onChanged: (value) {
+                style: textTheme.bodySmall,
+                onSubmitted: (value) {
                   Provider.of<MarketViewProvider>(context, listen: false)
                       .serachCoin(value);
+                },
+                onChanged: (value) {
                   // List<CryptoData>? searchList = [];
                   //
                   // for(CryptoData crypto in model!){
@@ -69,7 +72,7 @@ class MarketViewPage extends StatelessWidget {
                     borderRadius: BorderRadius.all(Radius.circular(15)),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: borderColor),
+                    borderSide: BorderSide(color: primaryColor),
                     borderRadius: const BorderRadius.all(Radius.circular(15)),
                   ),
                 ),
