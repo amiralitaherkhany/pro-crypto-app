@@ -7,12 +7,14 @@ import 'package:provider/provider.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
         ),
+
         // ChangeNotifierProvider(
         //   create: (context) => CryptoDataProvider(),
         // )

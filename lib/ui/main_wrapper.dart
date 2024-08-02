@@ -7,6 +7,8 @@ import 'package:crypto_app/ui/watch_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/market_view_provider.dart';
+
 class MainWrapper extends StatefulWidget {
   const MainWrapper({super.key});
 
@@ -20,6 +22,7 @@ class _MainWrapperState extends State<MainWrapper> {
   Widget build(BuildContext context) {
     var primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       bottomNavigationBar: BottomNav(
         controller: _myPage,
       ),
@@ -39,7 +42,10 @@ class _MainWrapperState extends State<MainWrapper> {
           ChangeNotifierProvider(
               create: (context) => CryptoDataProvider(),
               child: const HomePage()),
-          const MarketViewPage(),
+          ChangeNotifierProvider(
+            create: (context) => MarketViewProvider(),
+            child: const MarketViewPage(),
+          ),
           const ProfilePage(),
           const WatchListPage(),
         ],

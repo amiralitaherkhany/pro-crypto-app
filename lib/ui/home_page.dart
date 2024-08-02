@@ -69,28 +69,57 @@ class _HomePageState extends State<HomePage> {
                 textTheme,
                 primaryColor,
               ),
-              SizedBox(
-                height: 500,
-                child: Consumer<CryptoDataProvider>(
-                  builder: (context, cryptoDataProvider, child) {
-                    switch (cryptoDataProvider.state.status) {
-                      case Status.loading:
-                        return _getCoinShimmer();
+              Consumer<CryptoDataProvider>(
+                builder: (context, cryptoDataProvider, child) {
+                  switch (cryptoDataProvider.state.status) {
+                    case Status.loading:
+                      return _getCoinShimmer();
 
-                      case Status.completed:
-                        List<CryptoData>? model = cryptoDataProvider
-                            .dataFuture.data!.cryptoCurrencyList;
-                        return _getCoinList(model, height, textTheme);
+                    case Status.completed:
+                      List<CryptoData>? model = cryptoDataProvider
+                          .dataFuture.data!.cryptoCurrencyList;
+                      return _getCoinList(model, height, textTheme);
 
-                      case Status.error:
-                        return Text(cryptoDataProvider.state.message);
+                    case Status.error:
+                      return Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            switch (cryptoDataProvider.defaultChoiceIndex) {
+                              case 0:
+                                cryptoDataProvider.getTopMarketCapData();
+                                break;
+                              case 1:
+                                cryptoDataProvider.getTopGainersData();
+                                break;
+                              case 2:
+                                cryptoDataProvider.getTopLosersData();
+                                break;
+                            }
+                          },
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: const Size(200, 50),
+                            foregroundColor: Colors.white,
+                            backgroundColor: Colors.red,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          child: const Text(
+                            'Try again',
+                          ),
+                        ),
+                      );
 
-                      default:
-                        return Container();
-                    }
-                  },
-                ),
-              )
+                    default:
+                      return Container();
+                  }
+                },
+              ),
+              const Divider(),
+              const SizedBox(
+                height: 50,
+              ),
             ],
           ),
         ),
@@ -157,6 +186,8 @@ class _HomePageState extends State<HomePage> {
       baseColor: Colors.grey.shade400,
       highlightColor: Colors.white,
       child: ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: 10,
         itemBuilder: (context, index) {
           return Row(
@@ -269,6 +300,8 @@ class _HomePageState extends State<HomePage> {
   ListView _getCoinList(
       List<CryptoData>? model, double height, TextTheme textTheme) {
     return ListView.separated(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) {
         var number = index + 1;
         var tokenId = model![index].id;
@@ -301,8 +334,18 @@ class _HomePageState extends State<HomePage> {
                 child: CachedNetworkImage(
                     errorWidget: (context, url, error) =>
                         const Icon(Icons.error),
-                    placeholder: (context, url) =>
-                        const CircularProgressIndicator(),
+                    placeholder: (context, url) => Shimmer.fromColors(
+                          baseColor: Colors.grey.shade400,
+                          highlightColor: Colors.white,
+                          child: Container(
+                            width: 32,
+                            height: 32,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(20),
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                     fadeInDuration: const Duration(milliseconds: 500),
                     width: 32,
                     height: 32,
@@ -318,10 +361,14 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       model[index].name!,
                       style: textTheme.bodySmall,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                     Text(
                       model[index].symbol!,
                       style: textTheme.labelSmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ],
                 ),
