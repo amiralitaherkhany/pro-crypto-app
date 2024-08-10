@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -41,8 +40,6 @@ class MarketViewProvider extends ChangeNotifier {
         state = ResponseModel.error("please check your connection...");
       }
       notifyListeners();
-    } on HandshakeException {
-      serachCoin(searchValue);
     } catch (e) {
       state = ResponseModel.error("something went wrong");
       print(e.toString());
@@ -64,8 +61,6 @@ class MarketViewProvider extends ChangeNotifier {
         state = ResponseModel.error("please check your connection...");
       }
       notifyListeners();
-    } on HandshakeException {
-      getCryptoData();
     } catch (e) {
       state = ResponseModel.error("something went wrong");
       print(e.toString());

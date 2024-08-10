@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:crypto_app/providers/theme_provider.dart';
 import 'package:crypto_app/ui/main_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +7,6 @@ import 'package:provider/provider.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  HttpOverrides.global = MyHttpOverrides();
 
   runApp(
     MultiProvider(
@@ -51,14 +48,5 @@ class _MyMaterialAppState extends State<MyMaterialApp> {
         );
       },
     );
-  }
-}
-
-class MyHttpOverrides extends HttpOverrides {
-  @override
-  HttpClient createHttpClient(SecurityContext? context) {
-    return super.createHttpClient(context)
-      ..badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
   }
 }
