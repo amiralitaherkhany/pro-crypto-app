@@ -350,7 +350,7 @@ class _HomePageState extends State<HomePage> {
                     width: 32,
                     height: 32,
                     imageUrl:
-                        'https://s2.coinmarketcap.com/static/img/coins/32x32/$tokenId.png'),
+                        'http://s2.coinmarketcap.com/static/img/coins/32x32/$tokenId.png'),
               ),
               Flexible(
                 fit: FlexFit.tight,
@@ -378,7 +378,7 @@ class _HomePageState extends State<HomePage> {
                 child: ColorFiltered(
                   colorFilter: ColorFilter.mode(filterColor, BlendMode.srcATop),
                   child: SvgPicture.network(
-                      'https://s3.coinmarketcap.com/generated/sparklines/web/1d/2781/$tokenId.svg'),
+                      'http://s3.coinmarketcap.com/generated/sparklines/web/1d/2781/$tokenId.svg'),
                 ),
               ),
               Expanded(

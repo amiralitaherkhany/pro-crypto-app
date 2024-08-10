@@ -45,5 +45,12 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	
+	<!-- اضافه کردن تنظیمات NSAppTransportSecurity برای اجازه دادن به درخواست‌های HTTP -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+	    <key>NSAllowsArbitraryLoads</key>
+	    <true/>
+	</dict>
 </dict>
 </plist>

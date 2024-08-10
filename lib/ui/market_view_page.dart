@@ -191,7 +191,7 @@ class MarketViewPage extends StatelessWidget {
                                           height: 32,
                                           width: 32,
                                           imageUrl:
-                                              "https://s2.coinmarketcap.com/static/img/coins/32x32/$tokenId.png",
+                                              "http://s2.coinmarketcap.com/static/img/coins/32x32/$tokenId.png",
                                           placeholder: (context, url) =>
                                               Shimmer.fromColors(
                                             baseColor: Colors.grey.shade400,
@@ -240,7 +240,7 @@ class MarketViewPage extends StatelessWidget {
                                           colorFilter: ColorFilter.mode(
                                               filterColor, BlendMode.srcATop),
                                           child: SvgPicture.network(
-                                            "https://s3.coinmarketcap.com/generated/sparklines/web/30d/2781/$tokenId.svg",
+                                            "http://s3.coinmarketcap.com/generated/sparklines/web/30d/2781/$tokenId.svg",
                                           ),
                                         ),
                                       ),
