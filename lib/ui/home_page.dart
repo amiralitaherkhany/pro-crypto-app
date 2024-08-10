@@ -127,56 +127,56 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Padding _getChoiceChips(
+  Widget _getChoiceChips(
     TextTheme textTheme,
     Color primaryColor,
   ) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 5.0, right: 5),
-      child: Row(
-        children: [
-          Consumer<CryptoDataProvider>(
-            builder: (context, cryptoDataProvider, child) {
-              return Wrap(
-                spacing: 8,
-                children: List.generate(
-                  _choicesList.length,
-                  (index) {
-                    return ChoiceChip(
-                      label: Text(
-                        _choicesList[index],
-                      ),
-                      selected: cryptoDataProvider.defaultChoiceIndex == index,
-                      labelStyle: textTheme.titleSmall,
-                      showCheckmark: false,
-                      side: const BorderSide(color: Colors.transparent),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      backgroundColor: Colors.grey[300],
-                      selectedColor: primaryColor,
-                      onSelected: (bool selected) {
-                        switch (index) {
-                          case 0:
-                            cryptoDataProvider.getTopMarketCapData();
-                            break;
-                          case 1:
-                            cryptoDataProvider.getTopGainersData();
+    return SizedBox(
+      height: 60,
+      child: Padding(
+        padding: const EdgeInsets.only(left: 5.0, right: 5),
+        child: Consumer<CryptoDataProvider>(
+          builder: (context, cryptoDataProvider, child) {
+            return ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: _choicesList.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: ChoiceChip(
+                    label: Text(
+                      _choicesList[index],
+                    ),
+                    selected: cryptoDataProvider.defaultChoiceIndex == index,
+                    labelStyle: textTheme.titleSmall,
+                    showCheckmark: false,
+                    side: const BorderSide(color: Colors.transparent),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    backgroundColor: Colors.grey[300],
+                    selectedColor: primaryColor,
+                    onSelected: (bool selected) {
+                      switch (index) {
+                        case 0:
+                          cryptoDataProvider.getTopMarketCapData();
+                          break;
+                        case 1:
+                          cryptoDataProvider.getTopGainersData();
 
-                            break;
-                          case 2:
-                            cryptoDataProvider.getTopLosersData();
+                          break;
+                        case 2:
+                          cryptoDataProvider.getTopLosersData();
 
-                            break;
-                        }
-                      },
-                    );
-                  },
-                ),
-              );
-            },
-          )
-        ],
+                          break;
+                      }
+                    },
+                  ),
+                );
+              },
+            );
+          },
+        ),
       ),
     );
   }
@@ -361,7 +361,7 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       model[index].name!,
                       style: textTheme.bodySmall,
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                     Text(
@@ -388,20 +388,26 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
-                    Text(
-                      '\$$finalPrice',
-                      style: textTheme.bodySmall,
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        '\$$finalPrice',
+                        style: textTheme.bodySmall,
+                      ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        percentIcon,
-                        Text(
-                          '$percentChange%',
-                          style: GoogleFonts.ubuntu(
-                              color: percentColor, fontSize: 13),
-                        ),
-                      ],
+                    FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          percentIcon,
+                          Text(
+                            '$percentChange%',
+                            style: GoogleFonts.ubuntu(
+                                color: percentColor, fontSize: 13),
+                          ),
+                        ],
+                      ),
                     )
                   ],
                 ),

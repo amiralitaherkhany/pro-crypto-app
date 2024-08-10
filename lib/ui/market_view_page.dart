@@ -221,11 +221,14 @@ class MarketViewPage extends StatelessWidget {
                                             Text(
                                               model[index].name!,
                                               style: textTheme.bodySmall,
+                                              maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                             Text(
                                               model[index].symbol!,
                                               style: textTheme.labelSmall,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ],
                                         ),
@@ -252,22 +255,28 @@ class MarketViewPage extends StatelessWidget {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.end,
                                             children: [
-                                              Text(
-                                                "\$$finalPrice",
-                                                style: textTheme.bodySmall,
+                                              FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                child: Text(
+                                                  "\$$finalPrice",
+                                                  style: textTheme.bodySmall,
+                                                ),
                                               ),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  percentIcon,
-                                                  Text(
-                                                    "$percentChange%",
-                                                    style: GoogleFonts.ubuntu(
-                                                        color: percentColor,
-                                                        fontSize: 13),
-                                                  ),
-                                                ],
+                                              FittedBox(
+                                                fit: BoxFit.scaleDown,
+                                                child: Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.end,
+                                                  children: [
+                                                    percentIcon,
+                                                    Text(
+                                                      "$percentChange%",
+                                                      style: GoogleFonts.ubuntu(
+                                                          color: percentColor,
+                                                          fontSize: 13),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
                                             ],
                                           ),
