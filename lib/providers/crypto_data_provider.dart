@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:crypto_app/models/crypto_model/all_crypto_model.dart';
 import 'package:crypto_app/network/api_provider.dart';
@@ -31,8 +30,6 @@ class CryptoDataProvider extends ChangeNotifier {
         state = ResponseModel.error('please check your connection');
       }
       notifyListeners();
-    } on HandshakeException {
-      getTopMarketCapData();
     } catch (e) {
       state = ResponseModel.error('something went wrong');
       print(e.toString());
@@ -54,8 +51,6 @@ class CryptoDataProvider extends ChangeNotifier {
         state = ResponseModel.error('please check your connection');
       }
       notifyListeners();
-    } on HandshakeException {
-      getTopGainersData();
     } catch (e) {
       state = ResponseModel.error('something went wrong');
       print(e.toString());
@@ -77,8 +72,6 @@ class CryptoDataProvider extends ChangeNotifier {
         state = ResponseModel.error('please check your connection');
       }
       notifyListeners();
-    } on HandshakeException {
-      getTopLosersData();
     } catch (e) {
       state = ResponseModel.error('something went wrong');
       print(e.toString());
