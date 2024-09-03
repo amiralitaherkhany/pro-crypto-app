@@ -37,6 +37,8 @@ class MarketViewProvider extends ChangeNotifier {
 
         state = ResponseModel.completed(dataFuture);
       } else {
+        print(response.statusCode.toString());
+
         state = ResponseModel.error("please check your connection...");
       }
       notifyListeners();
@@ -58,6 +60,8 @@ class MarketViewProvider extends ChangeNotifier {
         dataFuture = AllCryptoModel.fromJson(jsonDecode(response.body));
         state = ResponseModel.completed(dataFuture);
       } else {
+        print(response.statusCode.toString());
+
         state = ResponseModel.error("please check your connection...");
       }
       notifyListeners();

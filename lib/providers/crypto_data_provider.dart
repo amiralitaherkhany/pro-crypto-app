@@ -27,6 +27,7 @@ class CryptoDataProvider extends ChangeNotifier {
         dataFuture = AllCryptoModel.fromJson(jsonDecode(response.body));
         state = ResponseModel.completed(dataFuture);
       } else {
+        print(response.statusCode.toString());
         state = ResponseModel.error('please check your connection');
       }
       notifyListeners();
@@ -48,6 +49,8 @@ class CryptoDataProvider extends ChangeNotifier {
         dataFuture = AllCryptoModel.fromJson(jsonDecode(response.body));
         state = ResponseModel.completed(dataFuture);
       } else {
+        print(response.statusCode.toString());
+
         state = ResponseModel.error('please check your connection');
       }
       notifyListeners();
@@ -69,6 +72,8 @@ class CryptoDataProvider extends ChangeNotifier {
         dataFuture = AllCryptoModel.fromJson(jsonDecode(response.body));
         state = ResponseModel.completed(dataFuture);
       } else {
+        print(response.statusCode.toString());
+
         state = ResponseModel.error('please check your connection');
       }
       notifyListeners();

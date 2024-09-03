@@ -144,8 +144,11 @@ class _HomePageState extends State<HomePage> {
                 return Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: ChoiceChip(
-                    label: Text(
-                      _choicesList[index],
+                    label: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        _choicesList[index],
+                      ),
                     ),
                     selected: cryptoDataProvider.defaultChoiceIndex == index,
                     labelStyle: textTheme.titleSmall,
@@ -350,7 +353,7 @@ class _HomePageState extends State<HomePage> {
                     width: 32,
                     height: 32,
                     imageUrl:
-                        'http://s2.coinmarketcap.com/static/img/coins/32x32/$tokenId.png'),
+                        'https://s2.coinmarketcap.com/static/img/coins/32x32/$tokenId.png'),
               ),
               Flexible(
                 fit: FlexFit.tight,
@@ -378,7 +381,7 @@ class _HomePageState extends State<HomePage> {
                 child: ColorFiltered(
                   colorFilter: ColorFilter.mode(filterColor, BlendMode.srcATop),
                   child: SvgPicture.network(
-                      'http://s3.coinmarketcap.com/generated/sparklines/web/1d/2781/$tokenId.svg'),
+                      'https://s3.coinmarketcap.com/generated/sparklines/web/1d/2781/$tokenId.svg'),
                 ),
               ),
               Expanded(
