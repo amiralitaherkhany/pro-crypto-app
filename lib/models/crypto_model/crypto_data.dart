@@ -17,6 +17,7 @@
 /// dateAdded : "2013-04-28T00:00:00.000Z"
 /// quotes : [{"name":"USD","price":39144.775449462126000000000000,"volume24h":23301890066.89607239,"volume7d":174686950923.67400537,"volume30d":703067717071.67283326,"marketCap":743007961425.62685015915000000000000000000000,"selfReportedMarketCap":0E-24,"percentChange1h":0.31370907,"percentChange24h":0.04596212,"percentChange7d":0.28884588,"lastUpdated":"2022-03-12T09:23:00.000Z","percentChange30d":-11.66603041,"percentChange60d":-6.72707190,"percentChange90d":-20.21373828,"fullyDilluttedMarketCap":822040284438.70,"marketCapByTotalSupply":743007961425.62685015915000000000000000000000,"dominance":42.5432,"turnover":0.03136156,"ytdPriceChangePercentage":-17.9128}]
 /// isAudited : false
+library;
 
 class CryptoData {
   CryptoData({
@@ -73,7 +74,7 @@ class CryptoData {
     _totalSupply = json['totalSupply'].toDouble();
 
     if (json['maxSupply'] != null) {
-      var finalvar;
+      double finalvar = 0;
       var maxStr = json['maxSupply'].toString();
       if (maxStr.contains('.')) {
         finalvar = double.parse(maxStr);

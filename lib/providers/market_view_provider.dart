@@ -67,7 +67,7 @@ class MarketViewProvider extends ChangeNotifier {
       notifyListeners();
     } catch (e) {
       state = ResponseModel.error("something went wrong");
-      print(e.toString());
+      debugPrint(e.toString());
       notifyListeners();
     }
   }

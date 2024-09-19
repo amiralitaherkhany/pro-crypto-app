@@ -1,9 +1,9 @@
-
 /// timestamp : "2022-03-12T09:24:55.291Z"
 /// error_code : "0"
 /// error_message : "SUCCESS"
 /// elapsed : "31"
 /// credit_count : 0
+library;
 
 class Status {
   Status({
@@ -11,7 +11,8 @@ class Status {
     String? errorCode,
     String? errorMessage,
     String? elapsed,
-    int? creditCount,}){
+    int? creditCount,
+  }) {
     _timestamp = timestamp;
     _errorCode = errorCode;
     _errorMessage = errorMessage;
@@ -47,5 +48,4 @@ class Status {
     map['credit_count'] = _creditCount;
     return map;
   }
-
 }
