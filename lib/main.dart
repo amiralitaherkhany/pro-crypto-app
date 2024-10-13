@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:crypto_app/providers/theme_provider.dart';
+import 'package:crypto_app/providers/user_data_provider.dart';
 import 'package:crypto_app/ui/sign_up_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,6 +17,9 @@ void main() {
       providers: [
         ChangeNotifierProvider(
           create: (context) => ThemeProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserDataProvider(),
         ),
 
         // ChangeNotifierProvider(

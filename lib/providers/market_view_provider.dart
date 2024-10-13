@@ -1,7 +1,7 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
 
 import '../models/crypto_model/all_crypto_model.dart';
 import '../network/api_provider.dart';
@@ -22,7 +22,7 @@ class MarketViewProvider extends ChangeNotifier {
     try {
       response = await apiProvider.getAllCryptoData();
       if (response.statusCode == 200) {
-        dataFuture = AllCryptoModel.fromJson(jsonDecode(response.body));
+        dataFuture = AllCryptoModel.fromJson(jsonDecode(response.data));
 
         if (searchValue.isNotEmpty) {
           dataFuture.data!.cryptoCurrencyList =
@@ -37,14 +37,14 @@ class MarketViewProvider extends ChangeNotifier {
 
         state = ResponseModel.completed(dataFuture);
       } else {
-        print(response.statusCode.toString());
+        debugPrint(response.statusCode.toString());
 
         state = ResponseModel.error("please check your connection...");
       }
       notifyListeners();
     } catch (e) {
       state = ResponseModel.error("something went wrong");
-      print(e.toString());
+      debugPrint(e.toString());
       notifyListeners();
     }
   }
@@ -57,10 +57,10 @@ class MarketViewProvider extends ChangeNotifier {
     try {
       response = await apiProvider.getAllCryptoData();
       if (response.statusCode == 200) {
-        dataFuture = AllCryptoModel.fromJson(jsonDecode(response.body));
+        dataFuture = AllCryptoModel.fromJson(jsonDecode(response.data));
         state = ResponseModel.completed(dataFuture);
       } else {
-        print(response.statusCode.toString());
+        debugPrint(response.statusCode.toString());
 
         state = ResponseModel.error("please check your connection...");
       }

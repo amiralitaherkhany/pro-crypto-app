@@ -1,6 +1,10 @@
+import 'package:crypto_app/network/response_model.dart';
+import 'package:crypto_app/providers/user_data_provider.dart';
+import 'package:crypto_app/ui/main_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -200,7 +204,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   SizedBox(
                     height: height * 0.02,
                   ),
-                  signupBtn(),
+                  Consumer<UserDataProvider>(
+                    builder: (context, userDataProvider, child) {
+                      switch (userDataProvider.registerStatus?.status) {
+                        case Status.loading:
+                          return const CircularProgressIndicator();
+                        case Status.completed:
+                          // savedLogin(userDataProvider.registerStatus?.data);
+                          WidgetsBinding.instance.addPostFrameCallback(
+                            (timeStamp) => Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const MainWrapper(),
+                              ),
+                            ),
+                          );
+                          return signupBtn();
+                        case Status.error:
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              signupBtn(),
+                              const SizedBox(
+                                height: 5,
+                              ),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.error,
+                                    color: Colors.redAccent,
+                                  ),
+                                  const SizedBox(
+                                    width: 6,
+                                  ),
+                                  Text(
+                                    userDataProvider.registerStatus!.message,
+                                    style: GoogleFonts.ubuntu(
+                                        color: Colors.redAccent, fontSize: 15),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          );
+                        default:
+                          return signupBtn();
+                      }
+                    },
+                  ),
                 ],
               ),
             ),
@@ -225,9 +275,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
         onPressed: () {
           // Validate returns true if the form is valid, or false otherwise.
           // if all text form field validator cll backs returns null that means its validated
-          // if (_formKey.currentState!.validate()) {
-          //   userProvider.callRegisterApi(nameController.text, emailController.text, passwordController.text);
-          // }
+          if (_formKey.currentState!.validate()) {
+            Provider.of<UserDataProvider>(context, listen: false)
+                .callRegisterApi(nameController.text, emailController.text,
+                    passwordController.text);
+          }
         },
         child: Text(
           'Sign Up',
